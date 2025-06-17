@@ -23,19 +23,15 @@ public class Main {
         System.out.println("Управление БД с помощью консоли");
         System.out.println();
 
-        if(!testConn()){
-            System.exit(0);
-        }
-        signIn();
+        if(testConn()) {
+            signIn(in);
 
-        System.out.println("Введите SQL-запрос, или завершите работу командой QUIT:");
-        str = in.nextLine();
-        while(true){
-            if(!acceptRequests(str)){
-                System.exit(0);
-            }
             System.out.println("Введите SQL-запрос, или завершите работу командой QUIT:");
             str = in.nextLine();
+            while (acceptRequests(str)) {
+                System.out.println("Введите SQL-запрос, или завершите работу командой QUIT:");
+                str = in.nextLine();
+            }
         }
     }
 
@@ -73,8 +69,7 @@ public class Main {
         }
     }
 
-    public static void signIn(){
-        Scanner in = new Scanner(System.in);
+    public static void signIn(Scanner in){;
         System.out.print("Войти в режим администратора? (Y/N, значение по умолчанию - N) ");
         String str = in.nextLine();
         if(str.equalsIgnoreCase("Y")){

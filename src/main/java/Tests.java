@@ -1,10 +1,10 @@
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import org.testng.annotations.BeforeTest;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.Scanner;
 
 public class Tests {
 
@@ -37,7 +37,7 @@ public class Tests {
     }
 
     @Test
-    public void testConnTest(){
+    public void testConnTest0(){
         setOut();
         loadProps();
         Main.testConn();
@@ -46,17 +46,49 @@ public class Tests {
     }
 
     @Test
+    public void testConnTest1(){
+        setOut();
+        loadProps();
+        Main.jdbcUrl = "404";
+        Main.testConn();
+
+        Assert.assertTrue(outputStreamCaptor.toString().startsWith("Соединиться к БД не получилось"));
+    }
+
+    @Test
     public void testSignIn0(){
         setIn("Y\nsa\n\n");
-        Main.signIn();
-        Assert.assertEquals(Main.admMode, true);
+        Scanner in = new Scanner(System.in);
+        Main.signIn(in);
+        Assert.assertTrue(Main.admMode);
     }
 
     @Test
     public void testSignIn1(){
         setIn("N\n");
-        Main.signIn();
-        Assert.assertEquals(Main.admMode, false);
+        Scanner in = new Scanner(System.in);
+        Main.signIn(in);
+        Assert.assertFalse(Main.admMode);
+    }
+
+    @Test
+    public void testSignIn2(){
+        setIn("Y\nqa\n");
+        setOut();
+        Scanner in = new Scanner(System.in);
+        Main.signIn(in);
+        Assert.assertFalse(Main.admMode);
+        Assert.assertTrue(outputStreamCaptor.toString().contains("Логин неверный"));
+    }
+
+    @Test
+    public void testSignIn3(){
+        setIn("Y\nsa\npassword\n");
+        setOut();
+        Scanner in = new Scanner(System.in);
+        Main.signIn(in);
+        Assert.assertFalse(Main.admMode);
+        Assert.assertTrue(outputStreamCaptor.toString().contains("Пароль неверный"));
     }
 
     @Test
@@ -94,7 +126,7 @@ public class Tests {
         loadProps();
         Main.admMode = false;
         Main.acceptRequests("abacaba");
-        Assert.assertTrue(outputStreamCaptor.toString().trim().startsWith("Команду abacaba не удалось выполнить\n" +
+        Assert.assertTrue(outputStreamCaptor.toString().startsWith("Команду abacaba не удалось выполнить\n" +
                 "Синтаксическая ошибка: "));
     }
 
@@ -104,7 +136,7 @@ public class Tests {
         loadProps();
         Main.admMode = false;
         Main.acceptRequests("INSERT INTO TABLE404");
-        Assert.assertTrue(outputStreamCaptor.toString().trim().startsWith("Команду INSERT не удалось выполнить\n" +
+        Assert.assertTrue(outputStreamCaptor.toString().startsWith("Команду INSERT не удалось выполнить\n" +
                 "Ошибка: "));
     }
 
@@ -190,6 +222,14 @@ public class Tests {
     }
 
     @Test
+    public void testAcceptRequestsSelect0(){
+        setOut();
+        loadProps();
+        Main.acceptRequests("SELECT * * * FRRR STUDENTS");
+        Assert.assertTrue(outputStreamCaptor.toString().contains("Команду SELECT не удалось выполнить"));
+    }
+
+    @Test
     public void testAcceptRequestsSelect1(){
         setOut();
         loadProps();
@@ -204,7 +244,7 @@ public class Tests {
                 "INSERT INTO STUDENTS VALUES(2, 'Smirnov'); " +
                 "INSERT INTO STUDENTS VALUES(3, 'Dobrov'); " +
                 "SELECT * FROM STUDENTS");
-        Assert.assertTrue(outputStreamCaptor.toString().trim().contains("Команда SELECT выполнена"));
+        Assert.assertTrue(outputStreamCaptor.toString().contains("Команда SELECT выполнена"));
     }
 
     @Test
@@ -222,7 +262,7 @@ public class Tests {
                 "INSERT INTO STUDENTS VALUES(2, 'Smirnov'); " +
                 "INSERT INTO STUDENTS VALUES(3, 'Dobrov'); " +
                 "SELECT * FROM STUDENTS");
-        Assert.assertTrue(outputStreamCaptor.toString().trim().contains("Показано 3/3 записей"));
+        Assert.assertTrue(outputStreamCaptor.toString().contains("Показано 3/3 записей"));
     }
 
     @Test
@@ -240,9 +280,9 @@ public class Tests {
                 "INSERT INTO STUDENTS VALUES(2, 'Smirnov'); " +
                 "INSERT INTO STUDENTS VALUES(3, 'Kozlov'); " +
                 "SELECT * FROM STUDENTS");
-        Assert.assertTrue(outputStreamCaptor.toString().trim().contains("Ivanov"));
-        Assert.assertTrue(outputStreamCaptor.toString().trim().contains("Smirnov"));
-        Assert.assertTrue(outputStreamCaptor.toString().trim().contains("Kozlov"));
+        Assert.assertTrue(outputStreamCaptor.toString().contains("Ivanov"));
+        Assert.assertTrue(outputStreamCaptor.toString().contains("Smirnov"));
+        Assert.assertTrue(outputStreamCaptor.toString().contains("Kozlov"));
     }
 
     @Test
@@ -257,9 +297,9 @@ public class Tests {
                 "INSERT INTO STUDENTS VALUES(2, 'Smirnov'); " +
                 "UPDATE STUDENTS SET NAME = 'Kozlov' WHERE ID = 2; " +
                 "SELECT * FROM STUDENTS");
-        Assert.assertTrue(outputStreamCaptor.toString().trim().contains("Ivanov"));
-        Assert.assertFalse(outputStreamCaptor.toString().trim().contains("Smirnov"));
-        Assert.assertTrue(outputStreamCaptor.toString().trim().contains("Kozlov"));
+        Assert.assertTrue(outputStreamCaptor.toString().contains("Ivanov"));
+        Assert.assertFalse(outputStreamCaptor.toString().contains("Smirnov"));
+        Assert.assertTrue(outputStreamCaptor.toString().contains("Kozlov"));
     }
 
     @Test
@@ -275,9 +315,9 @@ public class Tests {
                 "INSERT INTO STUDENTS VALUES(3, 'Kozlov'); " +
                 "DELETE STUDENTS WHERE NAME = 'Smirnov'; " +
                 "SELECT * FROM STUDENTS");
-        Assert.assertTrue(outputStreamCaptor.toString().trim().contains("Ivanov"));
-        Assert.assertFalse(outputStreamCaptor.toString().trim().contains("Smirnov"));
-        Assert.assertTrue(outputStreamCaptor.toString().trim().contains("Kozlov"));
+        Assert.assertTrue(outputStreamCaptor.toString().contains("Ivanov"));
+        Assert.assertFalse(outputStreamCaptor.toString().contains("Smirnov"));
+        Assert.assertTrue(outputStreamCaptor.toString().contains("Kozlov"));
     }
 
     @Test
@@ -293,6 +333,24 @@ public class Tests {
         }
         setOut();
         Main.acceptRequests("SELECT * FROM STUDENTS");
-        Assert.assertTrue(outputStreamCaptor.toString().trim().contains("Показано 10/23 записей"));
+        Assert.assertTrue(outputStreamCaptor.toString().contains("Показано 10/23 записей"));
+    }
+
+    @Test
+    public void testMain1(){
+        setIn("Y\nsa\n\n" +
+                "DROP TABLE STUDENTS\n" +
+                "CREATE TABLE STUDENTS(ID INTEGER PRIMARY KEY, NAME VARCHAR(50))\n" +
+                "INSERT INTO STUDENTS VALUES(1, 'IVAN')\n" +
+                "INSERT INTO STUDENTS VALUES(2, 'ANDREY')\n" +
+                "INSERT INTO STUDENTS VALUES(3, 'VASILIY')\n" +
+                "DELETE STUDENTS WHERE ID=3\n" +
+                "UPDATE STUDENTS SET NAME = 'ANDREW' WHERE ID = 2\n" +
+                "SELECT * FROM STUDENTS\n" +
+                "QUIT\n");
+        setOut();
+        Main.main(new String[0]);
+        Assert.assertTrue(outputStreamCaptor.toString().contains("Работа завершена"));
+        Assert.assertFalse(outputStreamCaptor.toString().contains("не удалось выполнить"));
     }
 }

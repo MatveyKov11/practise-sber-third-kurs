@@ -61,7 +61,7 @@
               <archive>
                 <manifest>
                   <mainClass>
-                    org.example.src.main.java.Main
+                    Main
                   </mainClass>
                 </manifest>
               </archive>
