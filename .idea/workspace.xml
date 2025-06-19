@@ -4,12 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="69899766-3b2a-4ba6-a2ae-38e8b21b6489" name="Changes" comment="Рабочее приложение с юнит-тестом и jar-файлом (-jar-with-dependencies)">
+    <list default="true" id="69899766-3b2a-4ba6-a2ae-38e8b21b6489" name="Changes" comment="Добавление новых юнит-тестов для увеличения покрытия и небольшое изменение структуры метода main">
       <change beforePath="$PROJECT_DIR$/.gigaide/gigaide.properties" beforeDir="false" afterPath="$PROJECT_DIR$/.gigaide/gigaide.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Tests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Tests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/config.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/config.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -101,8 +101,8 @@
     <recent_temporary>
       <list>
         <item itemvalue="TestNG.Tests" />
-        <item itemvalue="TestNG.Tests.testLoadProps" />
         <item itemvalue="Application.Main" />
+        <item itemvalue="TestNG.Tests.testLoadProps" />
         <item itemvalue="TestNG.Tests.testMain1" />
       </list>
     </recent_temporary>
@@ -124,15 +124,24 @@
       <option name="project" value="LOCAL" />
       <updated>1749852371512</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Добавление новых юнит-тестов для увеличения покрытия и небольшое изменение структуры метода main">
+      <option name="closed" value="true" />
+      <created>1750187192416</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1750187192416</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Рабочее приложение с юнит-тестом и jar-файлом (-jar-with-dependencies)" />
-    <option name="LAST_COMMIT_MESSAGE" value="Рабочее приложение с юнит-тестом и jar-файлом (-jar-with-dependencies)" />
+    <MESSAGE value="Добавление новых юнит-тестов для увеличения покрытия и небольшое изменение структуры метода main" />
+    <option name="LAST_COMMIT_MESSAGE" value="Добавление новых юнит-тестов для увеличения покрытия и небольшое изменение структуры метода main" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/jdbs_task$Tests.ic" NAME="Tests Coverage Results" MODIFIED="1750186455197" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true" />
+    <SUITE FILE_PATH="coverage/jdbs_task$Tests.ic" NAME="Tests Coverage Results" MODIFIED="1750364348347" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true" />
     <SUITE FILE_PATH="coverage/jdbs_task$Tests_testLoadProps.ic" NAME="Tests.testLoadProps Coverage Results" MODIFIED="1750186434323" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true" />
   </component>
 </project>
